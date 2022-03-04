@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import styled from 'styled-components';
 import { LoginProps } from '../../pages/Main';
-
-axios.defaults.withCredentials = true;
+import { userApi } from '../../api';
 
 export default function Login({ handleLogin, handleUsername }: LoginProps) {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
 
@@ -19,48 +19,36 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
     else if (type === 'password') setPassword(value);
   };
 
-  const navigate = useNavigate();
-  // const loginRequest = () => {
-  //   const { email, password } = loginInfo;
-  //   if (!email || !password) {
-  //     setErrorMessage('이메일과 비밀번호를 입력하세요');
-  //   } else {
-  //     axios({
-  //       method: 'POST',
-  //       url: `${process.env.REACT_APP_SERVER_URL}/user/login/general`,
-  //       data: {
-  //         email,
-  //         password,
-  //       },
-  //     })
-  //       .then((result) => {
-  //         if (result.status === 200) {
-  //           const username = result.data.data.username;
-  //           handleUsername(username);
-  //           handleLogin();
-  //           navigate('/booklist', { replace: true });
-  //         }
-  //       })
-  //       .catch((err) => {
-  //         if (err.response.status === 401) {
-  //           setErrorMessage('이메일 또는 비밀번호가 틀렸습니다.');
-  //         } else {
-  //           setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
-  //         }
-  //       });
-  //   }
-  // };
+  const loginRequest = async () => {
+    if (!email || !password) {
+      setErrorMessage('이메일과 비밀번호를 입력하세요');
+    } else {
+      try {
+        const result = await userApi.login(email, password);
+        const username = result.data.data.username;
+        handleUsername(username);
+        handleLogin();
+        navigate('/booklist', { replace: true });
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          // todo 에러처리
+          setErrorMessage('이메일 또는 비밀번호가 틀렸습니다.');
+          // if (err.response.status === 401) {
+          // } else {
+          //   setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+          // }
+        }
+      }
+    }
+  };
 
   const googleLoginRequest = async () => {
-    const authURL = await axios({
-      method: 'GET',
-      url: `${process.env.REACT_APP_SERVER_URL}/auth/google`,
-    })
-      .then((result) => result.data)
-      .catch((err) => {
-        console.log(err);
-      });
-    window.location.href = authURL;
+    try {
+      const urlData = await userApi.googleLogin();
+      window.location.href = urlData.data;
+    } catch (e: unknown) {
+      console.log(e);
+    }
   };
 
   return (
@@ -82,7 +70,9 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
           />
         </InputContainer>
         <ButtonContainer>
-          <Button type="button">로그인</Button>
+          <Button type="button" onClick={loginRequest}>
+            로그인
+          </Button>
           <Button type="button" onClick={googleLoginRequest}>
             Sign in with google
           </Button>
