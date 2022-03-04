@@ -12,14 +12,14 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
 
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleInputValue = (e: ChangeEvent, type: string) => {
+  const handleInput = (e: ChangeEvent, type: string) => {
     const { value } = e.target as HTMLInputElement;
 
     if (type === 'email') setEmail(value);
     else if (type === 'password') setPassword(value);
   };
 
-  const loginRequest = async () => {
+  const login = async () => {
     if (!email || !password) {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
     } else {
@@ -42,7 +42,7 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
     }
   };
 
-  const googleLoginRequest = async () => {
+  const loginWithGoogle = async () => {
     try {
       const urlData = await userApi.googleLogin();
       window.location.href = urlData.data;
@@ -59,21 +59,21 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
           <Input
             type="email"
             value={email}
-            onChange={(e) => handleInputValue(e, 'email')}
+            onChange={(e) => handleInput(e, 'email')}
             placeholder="이메일"
           />
           <Input
             type="password"
             value={password}
-            onChange={(e) => handleInputValue(e, 'password')}
+            onChange={(e) => handleInput(e, 'password')}
             placeholder="비밀번호"
           />
         </InputContainer>
         <ButtonContainer>
-          <Button type="button" onClick={loginRequest}>
+          <Button type="button" onClick={login}>
             로그인
           </Button>
-          <Button type="button" onClick={googleLoginRequest}>
+          <Button type="button" onClick={loginWithGoogle}>
             Sign in with google
           </Button>
         </ButtonContainer>
