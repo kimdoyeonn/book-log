@@ -1,20 +1,15 @@
 import Login from '../components/user/Login';
 import useTitle from '../hooks/useTitle';
 
-const Main = ({
-  handleLogin,
-  handleUsername,
-}: {
+export interface LoginProps {
   handleLogin: () => void;
   handleUsername: (name: string) => void;
-}) => {
+}
+
+const Main = ({ handleLogin, handleUsername }: LoginProps) => {
   useTitle('메인 | 북로그');
 
-  return (
-    <div>
-      <Login handleLogin={handleLogin} handleUsername={handleUsername} />
-    </div>
-  );
+  return <Login handleLogin={handleLogin} handleUsername={handleUsername} />;
 };
 
 export default Main;
