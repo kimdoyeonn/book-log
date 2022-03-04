@@ -6,7 +6,7 @@ import { userApi } from '../../api';
 import Input from './Input';
 import Button from './Button';
 
-export default function Login({ handleLogin, handleUsername }: LoginProps) {
+const Login = ({ handleLogin, handleUsername }: LoginProps) => {
   const navigate = useNavigate();
 
   const [email, setEmail] = useState<string>('');
@@ -89,7 +89,9 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
       <div className="alert-box">{errorMessage}</div>
     </Container>
   );
-}
+};
+
+export default Login;
 
 export const Container = styled.main`
   padding-top: 2rem;
