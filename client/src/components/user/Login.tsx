@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { LoginProps } from '../../pages/Main';
 import { userApi } from '../../api';
+import Input from './Input';
+import Button from './Button';
 
 export default function Login({ handleLogin, handleUsername }: LoginProps) {
   const navigate = useNavigate();
@@ -52,28 +54,28 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
   };
 
   return (
-    <LoginContainer>
+    <Container>
       <Title>Sign In</Title>
       <LoginForm onSubmit={(e) => e.preventDefault()}>
         <InputContainer>
           <Input
             type="email"
             value={email}
-            onChange={(e) => handleInput(e, 'email')}
+            handleChange={(e) => handleInput(e, 'email')}
             placeholder="이메일"
           />
           <Input
             type="password"
             value={password}
-            onChange={(e) => handleInput(e, 'password')}
+            handleChange={(e) => handleInput(e, 'password')}
             placeholder="비밀번호"
           />
         </InputContainer>
         <ButtonContainer>
-          <Button type="button" onClick={login}>
+          <Button type="button" handleClick={login}>
             로그인
           </Button>
-          <Button type="button" onClick={loginWithGoogle}>
+          <Button type="button" handleClick={loginWithGoogle}>
             Sign in with google
           </Button>
         </ButtonContainer>
@@ -85,14 +87,13 @@ export default function Login({ handleLogin, handleUsername }: LoginProps) {
       </LoginSignupBox>
 
       <div className="alert-box">{errorMessage}</div>
-    </LoginContainer>
+    </Container>
   );
 }
 
-const LoginContainer = styled.main`
+export const Container = styled.main`
   padding-top: 2rem;
 
-  height: 100%;
   width: 100%;
 
   border-radius: 20px;
@@ -123,26 +124,6 @@ const ButtonContainer = styled.div`
   align-items: center;
 
   height: 6rem;
-`;
-
-const Input = styled.input`
-  height: 2.5rem;
-  width: 17rem;
-  padding: 0.6rem 1rem;
-  border: 1px solid rgb(0, 0, 0, 0.3);
-  border-radius: 2px;
-  outline: none;
-`;
-
-const Button = styled.button`
-  height: 2.5rem;
-  width: 17rem;
-  border: none;
-  background: rgb(172, 185, 146);
-  border-radius: 2px;
-  font-weight: 600;
-
-  cursor: pointer;
 `;
 
 const LoginForm = styled.form`
