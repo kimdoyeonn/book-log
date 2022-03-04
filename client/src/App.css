@@ -1,14 +1,3 @@
-* {
-  font-family: 'Roboto', sans-serif;
-  box-sizing: border-box;
-}
-
-.App {
-  justify-content: center;
-  min-height: 100vh;
-  background: url(./background-pic.jpg);
-}
-
 .inputField {
   flex: 1;
   height: 25px;

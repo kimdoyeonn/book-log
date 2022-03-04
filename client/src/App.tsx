@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
+import styled from 'styled-components';
 import './App.css';
 
 import Main from './pages/Main';
@@ -44,8 +45,9 @@ function App() {
   // const handleCurrentbook = (book) => {
   //   setCurrentBook(book);
   // };
+
   return (
-    <div className="App">
+    <Container>
       <Router>
         <TitleBar
           username={username}
@@ -144,8 +146,14 @@ function App() {
           ></Route> */}
         </Routes>
       </Router>
-    </div>
+    </Container>
   );
 }
 
 export default App;
+
+const Container = styled.div`
+  height: 100vh;
+  background-color: rgb(233, 229, 214);
+  color: rgb(54, 39, 6);
+`;
