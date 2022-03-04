@@ -1,13 +1,13 @@
-import { useState, useEffect } from 'react';
-
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
 import styled from 'styled-components';
+
 import './App.css';
 
-import Main from './pages/Main';
 import TitleBar from './components/TitleBar';
-import SignUpPage from './pages/SignUpPage';
+
+import Main from './pages/Main';
+import Signup from './pages/Signup';
 import MainMyPage from './pages/MainMyPage';
 import ChkPassPage from './pages/ChkPassPage';
 import WithdrawalPage from './pages/WithdrawalPage';
@@ -61,15 +61,11 @@ function App() {
               <Main handleLogin={handleLogin} handleUsername={handleUsername} />
             }
           ></Route>
-          {/* <Route
+          <Route
             path="/signup"
-            element={
-              <SignUpPage
-                handleUsername={handleUsername}
-                useTitle={useTitle()}
-              />
-            }
+            element={<Signup handleUsername={handleUsername} />}
           ></Route>
+          {/* 
           <Route
             path="/mypage"
             element={<MainMyPage isLogin={isLogin} useTitle={useTitle()} />}
