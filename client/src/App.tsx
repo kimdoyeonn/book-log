@@ -8,13 +8,13 @@ import TitleBar from './components/TitleBar';
 
 import Main from './pages/Main';
 import Signup from './pages/Signup';
+import SelectBook from './pages/SelectBook';
 import BookList from './pages/BookList';
 import MainMyPage from './pages/MainMyPage';
 import ChkPassPage from './pages/ChkPassPage';
 import WithdrawalPage from './pages/WithdrawalPage';
 import MdfPassPage from './pages/MdfPassPage';
 import ReviewListPage from './pages/ReviewListPage';
-import SelectBookPage from './pages/SelectBookPage';
 import ReviewInputPage from './pages/ReviewInputPage';
 import GoogleLoginPage from './pages/GoogleLoginPage';
 
@@ -75,6 +75,12 @@ function App() {
               />
             }
           ></Route>
+          <Route
+            path="/review/book"
+            element={
+              <SelectBook handleBookInfo={handleBookInfo} isLogin={isLogin} />
+            }
+          ></Route>
           {/* 
           <Route
             path="/mypage"
@@ -104,16 +110,6 @@ function App() {
             element={
               <ReviewListPage
                 currentBook={currentBook}
-                isLogin={isLogin}
-                useTitle={useTitle()}
-              />
-            }
-          ></Route>
-          <Route
-            path="/review/book"
-            element={
-              <SelectBookPage
-                handleBookInfo={handleBookInfo}
                 isLogin={isLogin}
                 useTitle={useTitle()}
               />
