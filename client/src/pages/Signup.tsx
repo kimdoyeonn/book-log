@@ -8,6 +8,7 @@ import { Container } from '../components/user/Login';
 import Modal from '../components/Modal';
 import Input from '../components/user/Input';
 import Button from '../components/user/Button';
+import { AxiosError } from 'axios';
 
 export interface SignupProps {
   handleUsername: (input: string) => void;
@@ -59,15 +60,14 @@ const Signup = ({ handleUsername }: SignupProps) => {
         // const username = result.data.data.userInfo.username;
         // handleUsername(username); 다시 로그인해야하므로 username 변경 안해도 됨
         setTimeout(() => navigate('/', { replace: true }), 3000);
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          // todo 동일한 이메일확인하기 버튼 추가
-          // todo 에러 처리
-          setErrorMessage('이미 동일한 이메일이 존재합니다.');
-          // if (e.response.status === 409) {
-          // } else {
-          //   setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
-          // }
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          const { response } = err as AxiosError;
+          if (response && response.status === 409) {
+            setErrorMessage('이미 동일한 이메일이 존재합니다.');
+          } else {
+            setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+          }
         }
       }
     }
@@ -90,7 +90,7 @@ const Signup = ({ handleUsername }: SignupProps) => {
       )}
       <Container>
         <h2>정보를 입력해주세요.</h2>
-        <SignupForm onSubmit={handleSignUp}>
+        <SignupForm>
           <InputContainer>
             <Input
               type="email"
@@ -117,7 +117,9 @@ const Signup = ({ handleUsername }: SignupProps) => {
               placeholder="비밀번호 확인"
             />
           </InputContainer>
-          <Button type="submit">SignUp</Button>
+          <Button type="button" handleClick={handleSignUp}>
+            SignUp
+          </Button>
           <div className="alert-box">{errorMessage}</div>
         </SignupForm>
       </Container>
