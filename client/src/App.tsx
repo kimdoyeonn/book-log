@@ -10,12 +10,12 @@ import Main from './pages/Main';
 import Signup from './pages/Signup';
 import SelectBook from './pages/SelectBook';
 import BookList from './pages/BookList';
+import ReviewForm from './pages/ReviewForm';
 import MainMyPage from './pages/MainMyPage';
 import ChkPassPage from './pages/ChkPassPage';
 import WithdrawalPage from './pages/WithdrawalPage';
 import MdfPassPage from './pages/MdfPassPage';
 import ReviewListPage from './pages/ReviewListPage';
-import ReviewInputPage from './pages/ReviewInputPage';
 import GoogleLoginPage from './pages/GoogleLoginPage';
 
 function App() {
@@ -81,6 +81,10 @@ function App() {
               <SelectBook handleBookInfo={handleBookInfo} isLogin={isLogin} />
             }
           ></Route>
+          <Route
+            path="/review"
+            element={<ReviewForm bookInfo={bookInfo} isLogin={isLogin} />}
+          ></Route>
           {/* 
           <Route
             path="/mypage"
@@ -115,16 +119,7 @@ function App() {
               />
             }
           ></Route>
-          <Route
-            path="/reviewinput"
-            element={
-              <ReviewInputPage
-                bookInfo={bookInfo}
-                isLogin={isLogin}
-                useTitle={useTitle()}
-              />
-            }
-          ></Route>
+
           <Route
             path="/login/google"
             element={
