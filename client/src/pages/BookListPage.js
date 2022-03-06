@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import PageTitle from '../components/PageTitle';
 import Modal from '../components/Modal';
 import { useNavigate } from 'react-router';
+import useTitle from '../hooks/useTitle';
 const BeforeLoginModal = styled(Modal)``;
 
 const BookListContainer = styled.div`
@@ -79,7 +80,6 @@ export default function BookListPage({
   handleCurrentbook,
   currentBook,
   isLogin,
-  useTitle,
 }) {
   axios.defaults.withCredentials = true;
   useTitle('북로그 도서 목록');

@@ -5,6 +5,7 @@ import { LoginProps } from '../../pages/Main';
 import { userApi } from '../../api';
 import Input from './Input';
 import Button from './Button';
+import { AxiosError } from 'axios';
 
 const Login = ({ handleLogin, handleUsername }: LoginProps) => {
   const navigate = useNavigate();
@@ -25,6 +26,8 @@ const Login = ({ handleLogin, handleUsername }: LoginProps) => {
     if (!email || !password) {
       setErrorMessage('이메일과 비밀번호를 입력하세요');
     } else {
+      navigate('/booklist', { replace: true });
+
       try {
         const result = await userApi.login(email, password);
         const username = result.data.data.username;
@@ -34,11 +37,13 @@ const Login = ({ handleLogin, handleUsername }: LoginProps) => {
       } catch (err: unknown) {
         if (err instanceof Error) {
           // todo 에러처리
-          setErrorMessage('이메일 또는 비밀번호가 틀렸습니다.');
-          // if (err.response.status === 401) {
-          // } else {
-          //   setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
-          // }
+          const { response } = err as AxiosError;
+
+          if (response && response.status === 401) {
+            setErrorMessage('이메일 또는 비밀번호가 틀렸습니다.');
+          } else {
+            setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+          }
         }
       }
     }

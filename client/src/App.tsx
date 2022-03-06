@@ -23,7 +23,7 @@ function App() {
 
   const [username, setUsername] = useState<string>('guest');
 
-  // const [bookInfo, setBookInfo] = useState({});
+  const [bookInfo, setBookInfo] = useState({});
 
   const handleLogin = () => {
     setIsLogin(true);
@@ -36,15 +36,15 @@ function App() {
     setUsername(input);
   };
 
-  // const handleBookInfo = (book) => {
-  //   setBookInfo(book);
-  // };
+  const handleBookInfo = (book: any) => {
+    setBookInfo(book);
+  };
 
-  // const [currentBook, setCurrentBook] = useState({});
+  const [currentBook, setCurrentBook] = useState({});
 
-  // const handleCurrentbook = (book) => {
-  //   setCurrentBook(book);
-  // };
+  const handleCurrentbook = (book: any) => {
+    setCurrentBook(book);
+  };
 
   return (
     <Container>
@@ -64,6 +64,16 @@ function App() {
           <Route
             path="/signup"
             element={<Signup handleUsername={handleUsername} />}
+          ></Route>
+          <Route
+            path="/booklist"
+            element={
+              <BookListPage
+                handleCurrentbook={handleCurrentbook}
+                currentBook={currentBook}
+                isLogin={isLogin}
+              />
+            }
           ></Route>
           {/* 
           <Route
@@ -88,17 +98,6 @@ function App() {
           <Route
             path="/modify"
             element={<MdfPassPage isLogin={isLogin} useTitle={useTitle()} />}
-          ></Route>
-          <Route
-            path="/booklist"
-            element={
-              <BookListPage
-                handleCurrentbook={handleCurrentbook}
-                currentBook={currentBook}
-                isLogin={isLogin}
-                useTitle={useTitle()}
-              />
-            }
           ></Route>
           <Route
             path="/booklist/reviewlist"
