@@ -19,3 +19,7 @@ export const userApi = {
   signup: (email: string, username: string, password: string) =>
     api.post('/user/signup/general', { email, username, password }),
 };
+
+export const bookApi = {
+  list: () => api.get('/list'),
+};

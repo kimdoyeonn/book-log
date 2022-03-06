@@ -8,11 +8,11 @@ import TitleBar from './components/TitleBar';
 
 import Main from './pages/Main';
 import Signup from './pages/Signup';
+import BookList from './pages/BookList';
 import MainMyPage from './pages/MainMyPage';
 import ChkPassPage from './pages/ChkPassPage';
 import WithdrawalPage from './pages/WithdrawalPage';
 import MdfPassPage from './pages/MdfPassPage';
-import BookListPage from './pages/BookListPage';
 import ReviewListPage from './pages/ReviewListPage';
 import SelectBookPage from './pages/SelectBookPage';
 import ReviewInputPage from './pages/ReviewInputPage';
@@ -68,7 +68,7 @@ function App() {
           <Route
             path="/booklist"
             element={
-              <BookListPage
+              <BookList
                 handleCurrentbook={handleCurrentbook}
                 currentBook={currentBook}
                 isLogin={isLogin}
