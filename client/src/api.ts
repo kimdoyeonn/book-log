@@ -23,4 +23,18 @@ export const userApi = {
 export const bookApi = {
   list: () => api.get('/list'),
   search: (title: string) => api.get(`/book/search?title=${title}`),
+  write: (bookInfo: any, review: any) =>
+    api.post('/book/new', {
+      ...bookInfo,
+      published_at: bookInfo.datetime,
+      author: bookInfo.authors[0],
+      reviewContents: review.content,
+      page: review.page,
+    }),
+  edit: (review_id: any, review: any) =>
+    api.patch('/book/edit', {
+      review_id,
+      reviewContents: review.content,
+      page: review.page,
+    }),
 };

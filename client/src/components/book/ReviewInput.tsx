@@ -1,32 +1,10 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { bookApi } from '../../api';
 
-axios.defaults.withCredentials = true;
-
-const ReviewInputContainer = styled.div`
-  background-color: #9fb7cd;
-  border-radius: 10px;
-  height: 25rem;
-  margin: auto;
-  padding: 2rem;
-  margin-top: 1rem;
-`;
-
-const DateContainer = styled.div`
-  height: 5vh;
-  font-size: 0.8rem;
-`;
-const WritingContainer = styled.textarea`
-  width: 100%;
-  height: 15rem;
-  font-size: 1rem;
-`;
-const PageInput = styled.div`
-  float: right;
-`;
-export default function ReviewInput({
+const ReviewInput = ({
   bookInfo,
   info,
   bookId,
@@ -34,8 +12,7 @@ export default function ReviewInput({
   bookInfo: any;
   info: any;
   bookId: any;
-}) {
-  console.log(bookId);
+}) => {
   const today = new Date();
 
   const navigate = useNavigate();
@@ -47,58 +24,47 @@ export default function ReviewInput({
   const reviewInputValue = (key: any) => (e: any) => {
     setReviewContent({ ...reviewContent, [key]: e.target.value });
   };
-  const writeReview = () => {
+  const writeReview = async () => {
     let regExp = /[^0-9]/g;
     let number = String(reviewContent.page).replace(regExp, '');
-    console.log(reviewContent.page);
-    console.log(typeof reviewContent.page);
+
     if (String(reviewContent.page) !== number) {
       setErrorMessage('페이지수는 숫자로만 입력해야합니다.');
     } else if (!reviewContent.page || !reviewContent.content) {
       setErrorMessage('페이지수와 감상 내용 모두 입력해야합니다.');
     } else {
       if (info) {
-        axios({
-          method: 'PATCH',
-          url: `${process.env.REACT_APP_SERVER_URL}/book/edit`,
-          data: {
-            review_id: info.review_id,
-            review: reviewContent.content,
-            page: reviewContent.page,
-          },
-        })
-          .then((result) => {
-            if (result.status === 200) {
-              navigate('/booklist/reviewlist', {
-                state: { book_id: bookId },
-              });
-            }
-          })
-          .catch((err) => {
-            setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+        try {
+          // todo 기록 수정 리팩토링
+          const result = await bookApi.edit(info.book_id, reviewContent);
+          navigate('/booklist/reviewlist', {
+            state: { book_id: bookId },
           });
+        } catch (err: unknown) {
+          // todo 에러처리
+          if (err instanceof Error) {
+            const { response } = err as AxiosError;
+            if (response && response.status) {
+              setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+            }
+          }
+        }
       } else {
-        axios({
-          method: 'POST',
-          url: `${process.env.REACT_APP_SERVER_URL}/book/new`,
-          data: {
-            ...bookInfo,
-            published_at: bookInfo.datetime,
-            author: bookInfo.authors[0],
-            reviewContents: reviewContent.content,
-            page: reviewContent.page,
-          },
-        })
-          .then((result) => {
-            if (result.status === 200) {
-              navigate('/booklist/reviewlist', {
-                state: { book_id: result.data.data.book_id },
-              });
-            }
-          })
-          .catch((err) => {
-            setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+        try {
+          // todo 새 기록 작성 리팩토링
+          const result = await bookApi.write(bookInfo, reviewContent);
+          navigate('/booklist/reviewlist', {
+            state: { book_id: result.data.data.book_id },
           });
+        } catch (err: unknown) {
+          // todo 에러처리
+          if (err instanceof Error) {
+            const { response } = err as AxiosError;
+            if (response && response.status) {
+              setErrorMessage('서버에 문제가 있습니다. 잠시 후 시도해주세요.');
+            }
+          }
+        }
       }
     }
   };
@@ -135,4 +101,28 @@ export default function ReviewInput({
       <div className="alert-box">{errorMessage}</div>
     </ReviewInputContainer>
   );
-}
+};
+
+export default ReviewInput;
+
+const ReviewInputContainer = styled.div`
+  background-color: #9fb7cd;
+  border-radius: 10px;
+  height: 25rem;
+  margin: auto;
+  padding: 2rem;
+  margin-top: 1rem;
+`;
+
+const DateContainer = styled.div`
+  height: 5vh;
+  font-size: 0.8rem;
+`;
+const WritingContainer = styled.textarea`
+  width: 100%;
+  height: 15rem;
+  font-size: 1rem;
+`;
+const PageInput = styled.div`
+  float: right;
+`;
