@@ -26,7 +26,15 @@ const WritingContainer = styled.textarea`
 const PageInput = styled.div`
   float: right;
 `;
-export default function ReviewInput({ bookInfo, info, bookId }) {
+export default function ReviewInput({
+  bookInfo,
+  info,
+  bookId,
+}: {
+  bookInfo: any;
+  info: any;
+  bookId: any;
+}) {
   console.log(bookId);
   const today = new Date();
 
@@ -36,7 +44,7 @@ export default function ReviewInput({ bookInfo, info, bookId }) {
     content: info ? info.review : '',
     page: info ? info.page : '',
   });
-  const reviewInputValue = (key) => (e) => {
+  const reviewInputValue = (key: any) => (e: any) => {
     setReviewContent({ ...reviewContent, [key]: e.target.value });
   };
   const writeReview = () => {
@@ -115,7 +123,6 @@ export default function ReviewInput({ bookInfo, info, bookId }) {
         </PageInput>
       </DateContainer>
       <WritingContainer
-        type="text"
         className="review-input"
         placeholder="책을 읽고 느낌 감상을 자유롭게 남겨주세요."
         onChange={reviewInputValue('content')}
