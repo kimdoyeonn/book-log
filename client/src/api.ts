@@ -22,4 +22,5 @@ export const userApi = {
 
 export const bookApi = {
   list: () => api.get('/list'),
+  search: (title: string) => api.get(`/book/search?title=${title}`),
 };

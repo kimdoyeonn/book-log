@@ -1,7 +1,8 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { bookApi } from '../api';
 import BookInfoBox from '../components/book/BookInfoBox';
 import Modal from '../components/Modal';
 import PageTitle from '../components/PageTitle';
@@ -26,13 +27,19 @@ const SelectBook = ({
     }
   }, [search]);
 
-  const searchBook = async (search: any) => {
-    const {
-      data: { data },
-    } = await axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/book/search?title=${search}`
-    );
-    setBookList(data);
+  const searchBook = async (title: string) => {
+    try {
+      const {
+        data: { data },
+      } = await bookApi.search(title);
+      setBookList(data);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        const { response } = err as AxiosError;
+        // todo 에러처리
+        // if(response && response.status )
+      }
+    }
   };
 
   const handleChange = async (e: any) => {
