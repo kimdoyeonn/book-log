@@ -2,10 +2,30 @@ import React from 'react';
 import styled from 'styled-components';
 import BookInfo from './BookInfo';
 
+const BookInfoBox = ({
+  book,
+  clickHandler,
+  idx,
+}: {
+  book: any;
+  clickHandler: any;
+  idx: any;
+}) => {
+  return (
+    <BookBox>
+      <Info book={book} />
+      <Button onClick={() => clickHandler(idx)}>선택</Button>
+    </BookBox>
+  );
+};
+
+export default BookInfoBox;
+
 const BookBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   border-bottom: 1px solid #c7c1be;
   padding: 0.5rem 1rem;
   &:hover {
@@ -14,9 +34,7 @@ const BookBox = styled.div`
   }
 `;
 
-const Info = styled(BookInfo)`
-  width: 50rem;
-`;
+const Info = styled(BookInfo)``;
 
 const Button = styled.button`
   padding: 0.3rem 0.7rem;
@@ -27,14 +45,3 @@ const Button = styled.button`
   color: white;
   border: none;
 `;
-
-const BookInfoBox = ({ book, clickHandler, idx }) => {
-  return (
-    <BookBox>
-      <Info book={book} />
-      <Button onClick={() => clickHandler(idx)}>선택</Button>
-    </BookBox>
-  );
-};
-
-export default BookInfoBox;

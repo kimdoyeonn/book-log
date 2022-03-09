@@ -142,4 +142,8 @@ const Container = styled.div`
   height: 100vh;
   background-color: rgb(233, 229, 214);
   color: rgb(54, 39, 6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

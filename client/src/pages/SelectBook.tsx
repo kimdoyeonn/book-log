@@ -7,6 +7,7 @@ import BookInfoBox from '../components/book/BookInfoBox';
 import Modal from '../components/Modal';
 import PageTitle from '../components/PageTitle';
 import useTitle from '../hooks/useTitle';
+import { Container } from './BookList';
 
 const SelectBook = ({
   handleBookInfo,
@@ -60,7 +61,7 @@ const SelectBook = ({
     }
   };
   return (
-    <div>
+    <>
       {isLogin ? (
         <Container>
           {isModal ? (
@@ -91,32 +92,30 @@ const SelectBook = ({
               </ModalContainer>
             </BookModal>
           ) : null}
-          <ContentContainer>
-            <TitleContainer>
-              <PageTitle>도서 선택</PageTitle>
-            </TitleContainer>
-            <SearchContainer>
-              <SearchInput
-                type="text"
-                placeholder="도서 제목을 입력하세요."
-                value={search}
-                onChange={handleChange}
-              />
-            </SearchContainer>
-            <BooksContainer>
-              {bookList.length > 0
-                ? bookList.map((book, idx) => {
-                    return (
-                      <BookInfoBox
-                        book={book}
-                        idx={idx}
-                        clickHandler={clickHandler}
-                      />
-                    );
-                  })
-                : '검색 결과가 없습니다.'}
-            </BooksContainer>
-          </ContentContainer>
+          <TitleContainer>
+            <PageTitle>도서 선택</PageTitle>
+          </TitleContainer>
+          <SearchContainer>
+            <SearchInput
+              type="text"
+              placeholder="도서 제목을 입력하세요."
+              value={search}
+              onChange={handleChange}
+            />
+          </SearchContainer>
+          <BooksContainer>
+            {bookList.length > 0
+              ? bookList.map((book, idx) => {
+                  return (
+                    <BookInfoBox
+                      book={book}
+                      idx={idx}
+                      clickHandler={clickHandler}
+                    />
+                  );
+                })
+              : '검색 결과가 없습니다.'}
+          </BooksContainer>
         </Container>
       ) : (
         <BeforeLoginModal>
@@ -126,7 +125,7 @@ const SelectBook = ({
           </button>
         </BeforeLoginModal>
       )}
-    </div>
+    </>
   );
 };
 
@@ -134,40 +133,25 @@ export default SelectBook;
 
 const BeforeLoginModal = styled(Modal)``;
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  /* padding: 2rem 17rem;
-    height: 100vh;
-    margin-top: -0.3rem;
-    background: rgba(255, 255, 255, 0.3); */
-`;
-
 const TitleContainer = styled.div`
   width: 100%;
 `;
 
 const SearchContainer = styled.div`
-  padding: 3rem 2.5rem;
+  padding: 1.5rem 0rem;
   text-align: center;
 `;
 
 const ContentContainer = styled.div`
-  /* background: rgba(255, 255, 255); */
-  background-color: rgba(255, 255, 255, 1);
   border-radius: 40px;
-  width: 60%;
   height: 50rem;
   padding: 3rem;
-  margin-top: 2rem;
 `;
 
 const BooksContainer = styled.div`
-  width: 100%;
-  background-color: rgb(247, 237, 222, 0.9);
-  padding: 0.7rem 1rem;
-  height: 32rem;
+  background-color: rgba(255, 255, 255, 1);
+  padding: 2rem 2rem;
+  height: 35rem;
   overflow-y: scroll;
   border-radius: 0.3rem;
 
@@ -188,10 +172,10 @@ const BooksContainer = styled.div`
 const SearchInput = styled.input`
   border: none;
   background: none;
+  width: 30rem;
   border-bottom: 2px solid #2a4a69;
   padding: 0.3rem 0.5rem;
   font-size: 1.3rem;
-  width: 30vw;
   outline: 0;
 `;
 

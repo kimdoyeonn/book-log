@@ -47,16 +47,16 @@ const BookList = ({
   }, []);
   console.log(bookList);
   return (
-    <div>
+    <>
       {isLogin ? (
-        <BookListContainer>
+        <Container>
           <PageTitle>도서 목록</PageTitle>
           <ButtonRow>
-            <Button className="add-bookbtn">
+            <Button>
               <AddLink to="/review/book">도서 추가</AddLink>
             </Button>
           </ButtonRow>
-          <BookContainer className="book-list">
+          <BookContainer>
             {bookList.length !== 0 ? (
               bookList.map((book) => (
                 <Link to="/booklist/reviewlist">
@@ -73,7 +73,7 @@ const BookList = ({
             )}
           </BookContainer>
           <div className="alert-box">{errorMessage}</div>
-        </BookListContainer>
+        </Container>
       ) : (
         <BeforeLoginModal>
           <div className="beforeLogin">로그인 후 사용해주세요.</div>
@@ -82,7 +82,7 @@ const BookList = ({
           </button>
         </BeforeLoginModal>
       )}
-    </div>
+    </>
   );
 };
 
@@ -90,12 +90,9 @@ export default BookList;
 
 const BeforeLoginModal = styled(Modal)``;
 
-const BookListContainer = styled.div`
-  background-color: rgba(255, 255, 255, 0.7);
+export const Container = styled.div`
   width: 60%;
   height: 50rem;
-  border-radius: 40px;
-  margin: auto;
   padding: 3rem;
   font-size: 14px;
   margin-top: 2rem;
@@ -112,7 +109,6 @@ const NoBook = styled.div`
 const ButtonRow = styled.div`
   display: flex;
   justify-content: flex-end;
-  padding-right: 2rem;
 `;
 
 const Button = styled.span`
@@ -135,7 +131,7 @@ const BookContainer = styled.div`
   margin-top: 2rem;
   overflow-y: scroll;
   height: 35rem;
-  background-color: rgb(247, 237, 222, 0.9);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 0.3rem;
 
   &::-webkit-scrollbar {
