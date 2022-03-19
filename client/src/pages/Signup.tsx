@@ -25,7 +25,7 @@ const Signup = ({ handleUsername }: SignupProps) => {
   const [usermodal, setUserModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
-  const handleInput = (e: ChangeEvent, type: string) => {
+  const handleInput = (type: string) => (e: ChangeEvent) => {
     const { value } = e.target as HTMLInputElement;
 
     if (type === 'email') setEmail(value);
@@ -95,25 +95,25 @@ const Signup = ({ handleUsername }: SignupProps) => {
             <Input
               type="email"
               value={email}
-              handleChange={(e) => handleInput(e, 'email')}
+              handleChange={handleInput('email')}
               placeholder="이메일"
             />
             <Input
               type="text"
               value={username}
-              handleChange={(e) => handleInput(e, 'username')}
+              handleChange={handleInput('username')}
               placeholder="username(10글자이내)"
             />
             <Input
               type="password"
               value={password}
-              handleChange={(e) => handleInput(e, 'password')}
+              handleChange={handleInput('password')}
               placeholder="비밀번호"
             />
             <Input
               type="password"
               value={passCheck}
-              handleChange={(e) => handleInput(e, 'passCheck')}
+              handleChange={handleInput('passCheck')}
               placeholder="비밀번호 확인"
             />
           </InputContainer>
